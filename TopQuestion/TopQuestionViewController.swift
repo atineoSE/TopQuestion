@@ -51,10 +51,10 @@ private extension TopQuestionViewController {
 		let questionsResource = QuestionsResource()
 		let questionsRequest = ApiRequest(resource: questionsResource)
 		request = questionsRequest
-		questionsRequest.load { [weak self] (questions: [Question]?) in
+		questionsRequest.load { [weak self] (apiWrapper: ApiWrapper?) in
 			self?.activityIndicator.stopAnimating()
-			guard let questions = questions,
-				let topQuestion = questions.first else {
+			guard let apiWrapper = apiWrapper,
+				let topQuestion = apiWrapper.items.first else {
 					return
 			}
 			self?.configureUI(with: topQuestion)

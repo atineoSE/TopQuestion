@@ -11,7 +11,7 @@ import Foundation
 protocol ApiResource {
     associatedtype Model: Decodable
 	var methodPath: String { get }
-    func makeModel(data: Data) -> [Model]?
+    func makeModel(data: Data) -> Model?
 }
 
 extension ApiResource {
@@ -25,14 +25,14 @@ extension ApiResource {
 		return URL(string: url)!
 	}
 
-    func makeModel(data: Data) -> [Model]? {
+    func makeModel(data: Data) -> Model? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         
         do {
-            let models = try decoder.decode(Array<Model>.self, from: data)
-            print(models)
-            return models
+            let model = try decoder.decode(Model.self, from: data)
+            print(model)
+            return model
         } catch let error {
             print(error)
             return nil
@@ -41,8 +41,6 @@ extension ApiResource {
 }
 
 struct QuestionsResource: ApiResource {
-    typealias Model = Question
-    
+    typealias Model = ApiWrapper
 	let methodPath = "/questions"
-    
 }

@@ -8,6 +8,10 @@
 
 import Foundation
 
+struct ApiWrapper : Decodable {
+    let items: [Question]
+}
+
 struct Question : Decodable {
 	let title: String
 	let score: Int
