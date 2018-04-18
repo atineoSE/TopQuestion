@@ -8,26 +8,14 @@
 
 import Foundation
 
-struct User {
+struct User : Decodable {
 	let name: String?
 	let profileImageURL: URL?
 	let reputation: Int?
-}
-
-extension User {
-	private enum Keys: String, SerializationKey {
-		case reputation
-		case name = "display_name"
-		case profileImage = "profile_image"
-	}
-	
-	init(serialization: Serialization) {
-		name = serialization.value(forKey: Keys.name)
-		reputation = serialization.value(forKey: Keys.reputation)
-		if let url: String = serialization.value(forKey: Keys.profileImage) {
-			profileImageURL = URL(string: url)
-		} else {
-			profileImageURL = nil
-		}
-	}
+    
+    enum CodingKeys: CodingKey, String {
+        case name = "display_name"
+        case profileImageURL = "profile_image"
+        case reputation
+    }
 }
